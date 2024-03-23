@@ -1,0 +1,64 @@
+/* Style for the product card container */
+.list-card-of-product {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between; /* Optional: distribute space between cards */
+}
+
+@media screen and (max-width: 768px) {
+  .list-card-of-product {
+    justify-content: center;
+  }
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* Style for the product card */
+.product-card {
+  height: 280px;
+  width: 200px; /* Adjust width as needed */
+  margin-bottom: 20px; /* Add margin between rows */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.5s ease;
+}
+
+.product-card:hover {
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  transform: scale(1.01);
+}
+
+/* Style for the product image */
+.product-image {
+  width: 100%;
+  height: 150px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+/* Style for the product title */
+.product-title {
+  margin-top: 8px;
+  font-size: 18px;
+  color: #000;
+  font-weight: 700;
+}
+
+/* Style for the product rating */
+.product-rating {
+  margin-top: 4px;
+  color: #777;
+}
+
+/* Style for the product price */
+.product-price {
+  margin-top: 8px;
+  font-weight: bold;
+  color: #333;
+}
