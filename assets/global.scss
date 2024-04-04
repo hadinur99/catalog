@@ -2,7 +2,8 @@
 .list-card-of-product {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between; /* Optional: distribute space between cards */
+  justify-content: space-evenly; /* Optional: distribute space between cards */
+  gap: 20px;
 }
 
 @media screen and (max-width: 768px) {

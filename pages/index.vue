@@ -8,21 +8,30 @@
         :key="product.id"
         :to="'/product/' + product.id"
       >
-        <div class="product-card">
-          <img
+        <v-card class="product-card" max-width="344">
+          <v-img
             :src="product.thumbnail"
             :alt="product.brand"
             class="product-image"
-            :width="100"
-          />
-          <div class="product-title">{{ product.title }}</div>
-          <div class="product-rating">
-            Rating {{ roundRating(product.rating) }}
-          </div>
-          <div class="product-price">
+            cover
+          ></v-img>
+
+          <v-card-title> {{ product.title }} </v-card-title>
+
+          <v-card-subtitle>
+            <span v-for="n in Math.floor(product.rating)" :key="n">
+              <v-icon color="orange" icon="mdi:mdi-star" />
+            </span>
+            <span v-if="product.rating % 1 !== 0">
+              <v-icon color="orange" icon="mdi:mdi-star-half" />
+            </span>
+            {{ product.rating }}
+          </v-card-subtitle>
+
+          <v-card-subtitle style="text-align: right">
             Price {{ formattedAmount(product.price) }}
-          </div>
-        </div>
+          </v-card-subtitle>
+        </v-card>
       </nuxt-link>
     </div>
   </div>
@@ -31,24 +40,15 @@
 <script setup>
 import { storeToRefs } from "pinia";
 import { useProductStore } from "../stores/product";
+import { currencyFormatter } from "../composables/currencyFormatter";
 
 const { products, loading, error } = storeToRefs(useProductStore());
 const { fetchProducts } = useProductStore();
 
 fetchProducts();
 
-const roundRating = (rating) => {
-  return Math.round(rating);
-};
-
-const formatter = new Intl.NumberFormat("en-US", {
-  style: "currency",
-  currency: "USD",
-  maximumFractionDigits: 0,
-});
-
 const formattedAmount = (price) => {
-  return formatter.format(price);
+  return currencyFormatter.format(price);
 };
 </script>
 

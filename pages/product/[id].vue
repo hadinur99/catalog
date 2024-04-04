@@ -1,31 +1,43 @@
 <template>
-  <div v-if="product">
-    <div class="wrapper">
-      <div class="outer">
-        <div class="content animated fadeInLeft">
-          <h1 class="title">
-            {{ product.title }}
-          </h1>
-          <p>
-            {{ product.description }}
-          </p>
+  <div v-if="product" style="position: relative; top: 100px">
+    <v-container class="mb-6">
+      <v-card>
+        <v-row class="row" no-gutters>
+          <v-col xs="12" sm="12" md="7">
+            <v-carousel>
+              <v-carousel-item
+                v-for="(item, i) in product.images"
+                :key="i"
+                :src="item"
+                cover
+              >
+              </v-carousel-item>
+            </v-carousel>
+          </v-col>
+          <v-col xs="12" sm="12" md="5">
+            <v-container>
+              <h1>{{ product.title }}</h1>
+              <p>
+                {{ product.description }}
+              </p>
+              <span>Rating </span>
+              <span v-for="n in Math.floor(product.rating)" :key="n">
+                <v-icon color="orange" icon="mdi:mdi-star" />
+              </span>
+              <span v-if="product.rating % 1 !== 0">
+                <v-icon color="orange" icon="mdi:mdi-star-half" />
+              </span>
+              {{ product.rating }}
+              <h2>Price {{ formattedAmount(product.price) }}</h2>
 
-          <div class="button">
-            <a>$ {{ product.price }}</a
-            ><a class="cart-btn"
-              ><i class="cart-icon ion-bag"></i>ADD TO CART</a
-            >
-          </div>
-        </div>
-        <div class="slider">
-          <img
-            :src="product.thumbnail"
-            :width="300"
-            class="animated fadeInRight"
-          />
-        </div>
-      </div>
-    </div>
+              <div>
+                <v-btn color="blue-darken-4"> Add to cart </v-btn>
+              </div>
+            </v-container>
+          </v-col>
+        </v-row>
+      </v-card>
+    </v-container>
   </div>
 </template>
 
@@ -33,17 +45,28 @@
 import { useRoute } from "vue-router";
 import { storeToRefs } from "pinia";
 import { useProductStore } from "../../stores/product";
+import { currencyFormatter } from "../../composables/currencyFormatter";
 
 const route = useRoute();
 const { product, products, loading, error } = storeToRefs(useProductStore());
 const { fetchProduct } = useProductStore();
 
 fetchProduct(route.params.id);
+
+const formattedAmount = (price) => {
+  return currencyFormatter.format(price);
+};
 </script>
 
 <style scoped>
 * {
   box-sizing: border-box;
+}
+
+@media screen and (max-width: 768px) {
+  .row {
+    flex-direction: column;
+  }
 }
 
 .title {
